@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+.env
+1D_profile_test.ipynb
+1D_radial_profile_test.ipynb
+Testing.ipynb
+sbi-logs/
+.vscode/
+.DS_Store
