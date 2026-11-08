@@ -33,10 +33,21 @@ class NFWHalo:
     @staticmethod
     def B_function(x):
         x = np.asarray(x, dtype=np.float64)
-        B = np.ones_like(x)  # Handles x == 1
+        if np.any(~np.isfinite(x)) or np.any(x <= 0):
+            raise ValueError("R/r_s must be finite and positive")
 
-        below = x < 1
-        above = x > 1
+        B = np.empty_like(x)
+        near = np.abs(x - 1.0) <= 1e-3
+        below = (x < 1) & ~near
+        above = (x > 1) & ~near
+
+        # Taylor expansion avoids cancellation around x = 1.
+        d = x[near] - 1.0
+        B[near] = 1.0 + d * (
+            -2.0 / 3.0 + d * (
+                7.0 / 15.0 + d * (-12.0 / 35.0 + d * 83.0 / 315.0)
+            )
+        )
 
         u = x[below]
         B[below] = (
@@ -56,8 +67,16 @@ class NFWHalo:
         x = np.asarray (R,dtype=np.float64) / r_s
         B_values = self.B_function(x)
 
-        F = np.full_like(x, 1.0 / 3.0)
-        regular = x != 1.0
+        F = np.empty_like(x)
+        near = np.abs(x - 1.0) <= 1e-3
+        regular = ~near
+
+        # Expand F directly: computing (1 - B)/(x^2 - 1)
+        # near x = 1 would reintroduce cancellation.
+        d = x[near] - 1.0
+        F[near] = 1.0 / 3.0 + d * (
+            -2.0 / 5.0 + d * (13.0 / 35.0 - d * 20.0 / 63.0)
+        )
 
         F[regular] = (
             (1 - B_values[regular])
