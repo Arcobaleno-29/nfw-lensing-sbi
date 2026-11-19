@@ -49,6 +49,7 @@ def _edges(edges):
 
 
 def _compress(gt, radius, sigma, valid_pixels, bin_edges, angle=None, angle_edges=None):
+    
     gt, radius = _numpy(gt), _numpy(radius)
     sigma = np.broadcast_to(_numpy(sigma), gt.shape)
     valid_pixels = _numpy(valid_pixels).astype(bool)
@@ -57,6 +58,7 @@ def _compress(gt, radius, sigma, valid_pixels, bin_edges, angle=None, angle_edge
     usable = (valid_pixels & np.isfinite(radius) & np.isfinite(gt)
               & np.isfinite(sigma) & (sigma > 0))
     bin_edges = _edges(bin_edges)
+
     sector_mode = angle is not None
     if sector_mode:
         angle = np.mod(_numpy(angle), 2 * np.pi)
