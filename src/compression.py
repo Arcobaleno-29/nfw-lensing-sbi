@@ -110,4 +110,4 @@ def sector_compression(gt, radius, angle, sigma, valid_pixels, bin_edges, angle_
 
     Angular edges are in radians and must span 0 to 2*pi.
     """
-    return _compress(gt, radius, sigma, valid_pixels, bin_edges, angle, angle_edges)
+    return _compress(gt, radius, sigma, valid_pixels, bin_edges, angle, angle_e
