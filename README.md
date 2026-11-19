@@ -30,3 +30,6 @@ Tran Vu Minh Anh
 ## Documentation
 * `sbi`: https://sbi.readthedocs.io/en/latest/index.html
 * `GetDist`: https://getdist.readthedocs.io/en/latest/intro.html#getting-started
+
+## License
+The source code and notebooks are available under the [MIT License](LICENSE).
